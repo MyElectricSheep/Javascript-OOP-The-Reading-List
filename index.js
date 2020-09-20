@@ -36,7 +36,8 @@
 class BookList {
   #secretList = [];
   #password = null;
-  constructor() {
+  constructor(name) {
+    this._name = name
     this._allBooks = [];
     this._nextBook = null;
     this._currentBook = null;
@@ -180,6 +181,23 @@ class BookList {
     }
   }
 
+  recommendSimilarBooks(book) {
+    const similar = this.allBooks.filter(b => b._genre === book._genre && b._title !== book._title);
+    if (!similar.length) return console.log('There are no books of the same genre in your collection');
+    const similarResult = similar.reduce((acc, s) => {
+      return acc + " " + `- ${s._title}`
+    }, "")
+    console.log(`The following book(s) in your library share the same genre:\n${similarResult}`)
+  }
+
+  bookInfo(book = this) {
+    console.log(`
+    Name: ${book._title}
+    Genre: ${book._genre}
+    Author: ${book._author}
+    `)
+  }
+
   // The following methods make use of Class Fields; which are quite new, and still not widely
   // supported by browsers (and only Node 12+) /!\ so use with caution /!\
   // They allow to set really private (language enforced) properties & methods within a class
@@ -241,32 +259,39 @@ class Book extends BookList {
     this._startReadDate = null;
     this._endReadDate = null;
   }
+  recommendSimilarBooks(bookList) {
+    bookList.recommendSimilarBooks(this)
+  }
 }
 
-// INSTANTIATION OF THE BOOKLIST
-const myLibrary = new BookList();
-
 // BOOK INSTANCES TO INJECT INTO THE BOOKLIST
+const autumn = new Book(
+  "The Autumn of the Patriarch",
+  "Novel",
+  "Gabriel García Márquez"
+);
 const foundation = new Book(
   "Foundation",
   "Science-fiction",
   "Isaac Asimov"
   );
+  const dune = new Book(
+    "Dune",
+    "Science-fiction",
+    "Frank Herbert"
+    );
 const sapiens = new Book(
   "Sapiens: A Brief History of Humankind",
   "Non-fiction",
   "Yuval Noah Harari"
 );
-const autumn = new Book(
-  "The Autumn of the Patriarch",
-  "Magical realism",
-  "Gabriel García Márquez"
-);
 const endgame = new Book("Endgame", "Play", "Samuel Beckett");
 const road = new Book("On the Road", "Novel", "Jack Kerouac");
 const sisyphus = new Book("The Myth of Sisyphus", "Essay", "Albert Camus");
 
-const booksHeld = [foundation, sapiens, autumn, endgame, road, sisyphus];
+const booksHeld = [foundation, dune, sapiens, autumn, endgame, road, sisyphus];
 
-// INITIALIZATION OF THE BOOKLIST WITH SOME BOOK INSTANCES
+// INSTANTIATION OF THE BOOKLIST
+const myLibrary = new BookList("My favorite books");
+// INJECTINT THE BOOKLIST WITH SOME BOOK INSTANCES
 booksHeld.forEach((b) => myLibrary.add(b));

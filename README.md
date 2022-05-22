@@ -1,6 +1,7 @@
 # The Reading List: an Object Oriented Booklist
 
-This is an exercise to practice **Object Oriented Programming (OOP)** concepts in Javascript.  
+- ##### This is an exercise created for the [WBS Coding School](https://www.wbscodingschool.com/) to practice **Object Oriented Programming (OOP)** concepts in Javascript.  
+- ##### This repo contains the solution to the following exercise
 
 ##### Achieve the following tasks:
 
